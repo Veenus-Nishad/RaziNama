@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.razinama.navigation.App
 import com.example.razinama.ui.theme.RaziNamaTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,91 +37,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             RaziNamaTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    App(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RaziNamaTheme {
-        Greeting("Android")
-    }
-}
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppSearchBar(modifier:Modifier) {
-    var text by remember { mutableStateOf("") } /* For entries*/
-    var active by remember { mutableStateOf(false) }
-    var history = remember { mutableStateListOf("") }
-    Row(
-        horizontalArrangement = Arrangement.Center
-    ) {
-        SearchBar(
-            query = text,
-            onQueryChange = {
-                text = it
-            }, /*updates text*/
-            onSearch = { /* Search Button Dabane pe Kya hoga */
-                history.add(text)
-                active = false
-                text = ""
-            },
-            active = active,
-            onActiveChange = {
-                active = it
-            },
-            placeholder = {
-                Text(text = "Search a Service")
-            },
-            leadingIcon = {
-                Icon(Icons.Default.Search, contentDescription = "Search Icon")
-            },
-            trailingIcon = {
-                if (active) {
-                    Icon(
-                        /* to make things clickable*/
-                        modifier = Modifier.clickable {
-                            if (text.isNotEmpty()) {
-                                text = ""
-                            } else { /*What this does is if the string is empty and you again click the button
-                            the searchBox will Close the Search bar*/
-                                active = false
-                            }
-                        },
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "Close Search"
-                    )
-
-                }
-            }
-        ) {
-            history.forEach {
-                if (history.isNotEmpty()) {
-                    Row(modifier = Modifier.padding(all = 10.dp)) {
-                        Icon(
-                            modifier = Modifier.padding(end = 10.dp),
-                            imageVector = Icons.Default.AccountBox,
-                            contentDescription = "History Icon"
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-}
