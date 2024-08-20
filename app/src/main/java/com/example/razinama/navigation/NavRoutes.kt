@@ -7,3 +7,6 @@ object ExploreScreen
 
 @Serializable
 object InstalledAppScreen
+
+@Serializable
+object ProfileScreen

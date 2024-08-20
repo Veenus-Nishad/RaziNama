@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
     kotlin("plugin.serialization") version "2.0.10"
 }
 
@@ -77,7 +77,10 @@ dependencies {
     kapt(libs.dagger.hilt.android.compiler)
 
     //naviagtion
-    implementation("androidx.navigation:navigation-compose:2.8.0-beta07")
+    implementation("androidx.navigation:navigation-compose:2.8.0-alpha08")
     //serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+    //Material 3
+    implementation("androidx.compose.material3:material3:1.3.0-beta05")
 }
