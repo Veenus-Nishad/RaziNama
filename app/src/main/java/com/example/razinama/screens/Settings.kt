@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 
 @Composable
-fun Profile(navController: NavHostController,modifier: Modifier = Modifier){
+fun Settings(navController: NavHostController,modifier: Modifier = Modifier){
     Column(modifier=Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Text(text = "Main Hoon Profile")
+        Text(text = "Main Hoon Settings")
     }
 }

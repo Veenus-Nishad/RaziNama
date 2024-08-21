@@ -32,6 +32,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.razinama.screens.Explore
 import com.example.razinama.screens.InstalledApp
+import com.example.razinama.screens.Settings
 
 @Composable
 fun App() {
@@ -53,7 +54,12 @@ fun App() {
                     NavigationBarItem(
                         selected = selectedIndex == index,
                         onClick = { selectedIndex=index
-                                  }, //yaha pe pass karna hai
+                            when(selectedIndex){
+                                0->  navController.navigate(ExploreScreen)
+                                1->  navController.navigate(InstalledAppScreen)
+                                else->  navController.navigate(SettingsScreen)
+                            }
+                                  },
                         icon = { Icon(imageVector = navItem.icon, contentDescription ="Icon" ) },
                         label = { Text(text = navItem.label) })
                 }
@@ -68,8 +74,8 @@ fun App() {
             composable<InstalledAppScreen> {
                 InstalledApp(navController,modifier=Modifier.padding(innerPadding))
             }
-            composable<ProfileScreen> {
-                InstalledApp(navController,modifier=Modifier.padding(innerPadding))
+            composable<SettingsScreen> {
+                Settings(navController,modifier=Modifier.padding(innerPadding))
             }
         }
     }
