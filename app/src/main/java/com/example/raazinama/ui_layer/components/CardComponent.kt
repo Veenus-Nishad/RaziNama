@@ -26,13 +26,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.raazinama.R
+import com.example.raazinama.network_layer.response.Parameters
 import com.example.raazinama.network_layer.response.Point
 
 @Composable
 fun CardComponent(
-    name:String,
-    rating:String?="Not rated",
-    image:String,
+    parameter: Parameters
 ) {
     Column(
         modifier = Modifier
@@ -49,19 +48,19 @@ fun CardComponent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             AsyncImage(
-                model = image,
+                model = parameter.image,
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = 8.dp, bottom = 8.dp, start = 12.dp, end = 6.dp)
                     .size(64.dp)
                     .clip(CircleShape), contentScale = ContentScale.Crop
             )
-            Text(name, modifier = Modifier.padding(4.dp))
+            Text(parameter.name, modifier = Modifier.padding(4.dp))
             CustomButton(
                 onClick = {},
                 buttonColor = ButtonDefaults.buttonColors(containerColor = Color.Red),
                 icon = null,
-                text = rating!!
+                text = parameter.rating
             )
 
 

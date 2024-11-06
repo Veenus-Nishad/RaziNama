@@ -1,12 +1,12 @@
 package com.example.raazinama.network_layer.response
 
 data class Case(
-    val id: Int,
-    val weight: Int,
-    val title: String,
-    val description: String,
-    val updated_at: String,
+    val classification: String,
     val created_at: String,
+    val description: String,
+    val id: Int,
+    val title: String,
     val topic_id: Int,
-    val classification: String
+    val updated_at: String,
+    val weight: Int
 )
