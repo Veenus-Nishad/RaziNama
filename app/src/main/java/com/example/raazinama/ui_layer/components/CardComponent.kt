@@ -6,13 +6,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,41 +28,75 @@ import com.example.raazinama.R
 
 @Preview(showSystemUi = true)
 @Composable
-fun CardComponent(){
+fun CardComponent() {
     Column(
-        modifier = Modifier.fillMaxWidth()
-            .padding(top=50.dp, start = 8.dp, end = 8.dp)
-            .border(width = 1.dp, shape = RectangleShape ,color = Color(216,217,217,255)),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 50.dp, start = 8.dp, end = 8.dp)
+            .border(width = 1.dp, shape = RectangleShape, color = Color(216, 217, 217, 255)),
         verticalArrangement = Arrangement.Center
     ) {
-        Row(modifier = Modifier.fillMaxWidth()
-            .padding(horizontal = 6.dp)
-            .background(Color(247, 246, 246,255)),
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 6.dp)
+                .background(Color(222, 221, 221, 255)),
             verticalAlignment = Alignment.CenterVertically,
-            ){
+        ) {
             Image(
-                painter = painterResource(R.drawable.stark),contentDescription = null,
-                modifier = Modifier.padding(top=8.dp, bottom = 8.dp, start = 12.dp, end = 6.dp).size(64.dp).clip(CircleShape), contentScale = ContentScale.Crop
+                painter = painterResource(R.drawable.stark), contentDescription = null,
+                modifier = Modifier
+                    .padding(top = 8.dp, bottom = 8.dp, start = 12.dp, end = 6.dp)
+                    .size(64.dp)
+                    .clip(CircleShape), contentScale = ContentScale.Crop
             )
-            Text(text="Service Name")
-            Text(text="Grade")
+            Text("FaceBook", modifier = Modifier.padding(4.dp))
+            CustomButton(
+                onClick = {},
+                buttonColor = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                icon = null,
+                text = "Grade E"
+            )
+
 
         }
-        Column(modifier=Modifier.padding(8.dp)) {
-            Text("Description")
-            Text("Description")
-            Text("Description")
+        Column(modifier = Modifier.padding(8.dp)) {
+            CustomTextBox(description = "This Description is too fucking long", boxColor = Color(
+                248,214,219,255
+            ))
+            CustomTextBox(description = "This Description is too fucking ",boxColor = Color(
+                248,214,219,255
+            ))
+            CustomTextBox(description = "This Description is too ",boxColor = Color(
+                248,214,219,255
+            ))
+            CustomButton(
+                onClick = {},
+                buttonColor = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                icon = R.drawable.eye,
+                text = "View All Points on Phoenix!"
+            )
         }
-        Button(onClick = {}) {
-            Text("ViewAll Points on Pheonix")
-        }
-        Column {
-            TextButton(onClick = {}) {
-                Text("Visit Documents")
-            }
-            TextButton(onClick = {}) {
-                Text("Visit Documents")
-            }
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 6.dp)
+            .background(Color(222, 221, 221, 255)),
+            verticalAlignment = Alignment.CenterVertically) {
+            CustomButton(
+                onClick = {},
+                buttonColor = ButtonDefaults.buttonColors(containerColor = Color.Blue),
+                icon = R.drawable.eye,
+                text = "View Documents"
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            CustomButton(
+                onClick = {},
+                buttonColor = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
+                icon = R.drawable.eye,
+                text = "View Service"
+            )
+
         }
     }
 }
