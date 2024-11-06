@@ -24,11 +24,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.example.raazinama.R
+import com.example.raazinama.network_layer.response.Point
 
-@Preview(showSystemUi = true)
 @Composable
-fun CardComponent() {
+fun CardComponent(
+    name:String,
+    rating:String?="Not rated",
+    image:String,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,19 +48,20 @@ fun CardComponent() {
                 .background(Color(222, 221, 221, 255)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
-                painter = painterResource(R.drawable.stark), contentDescription = null,
+            AsyncImage(
+                model = image,
+                contentDescription = null,
                 modifier = Modifier
                     .padding(top = 8.dp, bottom = 8.dp, start = 12.dp, end = 6.dp)
                     .size(64.dp)
                     .clip(CircleShape), contentScale = ContentScale.Crop
             )
-            Text("FaceBook", modifier = Modifier.padding(4.dp))
+            Text(name, modifier = Modifier.padding(4.dp))
             CustomButton(
                 onClick = {},
                 buttonColor = ButtonDefaults.buttonColors(containerColor = Color.Red),
                 icon = null,
-                text = "Grade E"
+                text = rating!!
             )
 
 
