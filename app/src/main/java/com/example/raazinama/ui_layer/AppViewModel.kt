@@ -1,43 +1,60 @@
 package com.example.raazinama.ui_layer
 
-import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.raazinama.network_layer.response.ServiceResponse
+import com.example.raazinama.network_layer.response.allServiceResponse.Service
+import com.example.raazinama.network_layer.response.specificServiceResponse.ServiceParameters
 import com.example.raazinama.repository.Repository
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AppViewModel:ViewModel() {
-    private val repository = Repository()
+@HiltViewModel
+class AppViewModel  @Inject constructor(private val repository: Repository):ViewModel() {
 
-    private val _data = mutableStateOf<ServiceResponse?>(null)
-    val data: State<ServiceResponse?> = _data
+    sealed class UiState {
+        object Loading : UiState()
+        data class ServicesList(val services: List<Service>) : UiState()
+        data class ServiceDetail(val service: ServiceParameters) : UiState()
+        data class Error(val message: String) : UiState()
+    }
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            getAppViewModel()
+    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
+
+    init { // runs when a new Instance of class
+        fetchAllServices()
+    }
+
+    fun fetchAllServices() {
+        viewModelScope.launch {
+            _uiState.value = UiState.Loading
+            repository.getAllServices()
+                .onSuccess { services ->
+                    _uiState.value = UiState.ServicesList(services)
+                }
+                .onFailure { exception ->
+                    _uiState.value = UiState.Error(exception.message ?: "Unknown error occurred")
+                }
         }
     }
 
-    suspend fun getAppViewModel() {
-        try {
-            val response = repository.getServiceRepo()
-            val serviceResponse = response.body()
-
-            if (serviceResponse == null) {
-                // Log or handle null response
-                Log.e("AppViewModel", "Received null response")
-                _data.value = null
-            } else {
-                _data.value = serviceResponse
-            }
-        } catch (e: Exception) {
-            Log.e("AppViewModel", "Error fetching data: ${e.message}")
-            _data.value = null
+    fun fetchServiceById(id: Int) {
+        viewModelScope.launch {
+            _uiState.value = UiState.Loading
+            repository.getServiceById(id)
+                .onSuccess { service ->
+                    _uiState.value = UiState.ServiceDetail(service)
+                }
+                .onFailure { exception ->
+                    _uiState.value = UiState.Error(exception.message ?: "Unknown error occurred")
+                }
         }
     }
 }
+
+
+

@@ -21,7 +21,7 @@ fun CustomButton(
     onClick:()->Unit,
     buttonColor:ButtonColors,
     icon: Int?=null,
-    text:String?=null,
+    rating:Any?=null,
 ) {
 
     Button(
@@ -45,9 +45,8 @@ fun CustomButton(
                         .size(23.dp)
                 )
             }
-            if (text != null) {
-                Text(text=text)
-            }
+             Text(text=rating.toString())
+
         }
 
     }

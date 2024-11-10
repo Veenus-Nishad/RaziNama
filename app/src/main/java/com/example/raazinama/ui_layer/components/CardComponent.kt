@@ -1,6 +1,7 @@
 package com.example.raazinama.ui_layer.components
 
-import androidx.compose.foundation.Image
+
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -21,18 +22,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.raazinama.R
-import com.example.raazinama.network_layer.response.Parameters
-import com.example.raazinama.network_layer.response.Point
+import com.example.raazinama.network_layer.response.specificServiceResponse.ServiceParameters
+
 
 @Composable
 fun CardComponent(
-    parameter: Parameters
+    service: ServiceParameters,
+    modifier: Modifier = Modifier
 ) {
+    val localUriHandler = LocalUriHandler.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,38 +51,45 @@ fun CardComponent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             AsyncImage(
-                model = parameter.image,
+                model = service.image,
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = 8.dp, bottom = 8.dp, start = 12.dp, end = 6.dp)
                     .size(64.dp)
                     .clip(CircleShape), contentScale = ContentScale.Crop
             )
-            Text(parameter.name, modifier = Modifier.padding(4.dp))
+            Text(service.name, modifier = Modifier.padding(4.dp))
             CustomButton(
                 onClick = {},
                 buttonColor = ButtonDefaults.buttonColors(containerColor = Color.Red),
                 icon = null,
-                text = parameter.rating
+                rating = service.rating
             )
 
 
         }
+
         Column(modifier = Modifier.padding(8.dp)) {
-            CustomTextBox(description = "This Description is too fucking long", boxColor = Color(
-                248,214,219,255
-            ))
-            CustomTextBox(description = "This Description is too fucking ",boxColor = Color(
-                248,214,219,255
-            ))
-            CustomTextBox(description = "This Description is too ",boxColor = Color(
-                248,214,219,255
-            ))
+            service.points.take(3).forEach{point->
+                CustomTextBox(description = point.title, boxColor =when (point.case.classification) {
+                    "good" -> Color.Green.copy(alpha = 0.1f)
+                    "bad" -> Color.Red.copy(alpha = 0.1f)
+                    "neutral" -> Color.Gray.copy(alpha = 0.1f)
+                    else -> Color.Yellow
+                }, onClick = {
+                    val points= service.points[1]
+                    localUriHandler.openUri("https://edit.tosdr.org/cases/${points.case.id}")
+                    Log.d("URL", "https://edit.tosdr.org/cases/${points.case.id}")
+                })
+            }
+
             CustomButton(
-                onClick = {},
+                onClick = {
+                    localUriHandler.openUri("https://edit.tosdr.org/services/${service.id}")
+                },
                 buttonColor = ButtonDefaults.buttonColors(containerColor = Color.Red),
                 icon = R.drawable.eye,
-                text = "View All Points on Phoenix!"
+                rating = "View All Points on Phoenix!"
             )
         }
 
@@ -92,14 +102,20 @@ fun CardComponent(
                 onClick = {},
                 buttonColor = ButtonDefaults.buttonColors(containerColor = Color.Blue),
                 icon = R.drawable.eye,
-                text = "View Documents"
+                rating = "View Documents"
             )
             Spacer(modifier = Modifier.width(8.dp))
             CustomButton(
-                onClick = {},
+                onClick = {
+                    val link="https://${service.urls.first()}"
+
+                    localUriHandler.openUri("https://${service.urls.first()}")
+                    Log.d("URL", link)
+
+                },
                 buttonColor = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
                 icon = R.drawable.eye,
-                text = "View Service"
+                rating = "View Service"
             )
 
         }
