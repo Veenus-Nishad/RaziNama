@@ -1,7 +1,6 @@
 package com.example.raazinama.ui_layer.components
 
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -65,8 +64,6 @@ fun CardComponent(
                 icon = null,
                 rating = service.rating
             )
-
-
         }
 
         Column(modifier = Modifier.padding(8.dp)) {
@@ -77,9 +74,7 @@ fun CardComponent(
                     "neutral" -> Color.Gray.copy(alpha = 0.1f)
                     else -> Color.Yellow
                 }, onClick = {
-                    val points= service.points[1]
-                    localUriHandler.openUri("https://edit.tosdr.org/cases/${points.case.id}")
-                    Log.d("URL", "https://edit.tosdr.org/cases/${points.case.id}")
+                    localUriHandler.openUri("https://edit.tosdr.org/cases/${point.case.id}")
                 })
             }
 
@@ -107,11 +102,7 @@ fun CardComponent(
             Spacer(modifier = Modifier.width(8.dp))
             CustomButton(
                 onClick = {
-                    val link="https://${service.urls.first()}"
-
                     localUriHandler.openUri("https://${service.urls.first()}")
-                    Log.d("URL", link)
-
                 },
                 buttonColor = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
                 icon = R.drawable.eye,
